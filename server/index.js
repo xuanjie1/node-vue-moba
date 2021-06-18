@@ -6,8 +6,9 @@ app.set('secret','asdfg123')
 
 app.use(require('cors')())
 app.use(express.json())
-app.use('/admin',express.static(__dirname + '/admin'))
+
 app.use('/',express.static(__dirname + '/web'))
+app.use('/admin',express.static(__dirname + '/admin'))
 app.use('/uploads',express.static(__dirname + '/uploads'))
 
 require('./plugins/db')(app)
