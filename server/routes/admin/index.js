@@ -46,10 +46,22 @@ module.exports = app =>{
     app.use('/admin/api/rest/:resource',authMiddleware(),resourceMiddleware(),router)
     
     const multer = require('multer')
-    const upload = multer({dest:__dirname + '/../../uploads'})
+    const MAO = require('multer-aliyun-oss');
+    // 'multer-aliyun-oss'
+    const upload = multer({
+        // dest:__dirname + '/../../uploads'
+        storage: MAO({
+            config: {
+                region: 'oss-cn-shanghai',
+                accessKeyId: 'LTAI5t7vDzDyzDoT9khnaAzZ',
+                accessKeySecret: 'hH7ZO5OLlUZj7GqrI97ywTY2cXtPSK',
+                bucket: 'node-vue-mobax'
+            }
+        })
+    })
     app.post('/admin/api/upload',authMiddleware(),upload.single('file') ,async (req,res) =>{
         const file = req.file
-        file.url = `http://test.团子小可爱.cn/uploads/${file.filename}`
+        // file.url = `http://test.团子小可爱.cn/uploads/${file.filename}`
         res.send(file)
     })
 
